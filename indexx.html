@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+  CSUN Map Quiz - Project 5
+  Author: Eiji J. Cortez
+  Description: A Google Maps-based quiz game where users double-click
+               campus locations on a CSUN map. Features a timer, score
+               tracking, high score storage, and animated feedback.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSUN Map Quiz</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="site-header">
+    <div id="header-inner">
+      <span id="logo-text">CSUN<span class="accent">MAP</span></span>
+      <div id="header-stats">
+        <div class="stat-box" id="timer-box">
+          <span class="stat-label">TIME</span>
+          <span class="stat-value" id="timer-display">0:00</span>
+        </div>
+        <div class="stat-box" id="score-box">
+          <span class="stat-label">SCORE</span>
+          <span class="stat-value" id="score-display">0 / 0</span>
+        </div>
+        <div class="stat-box" id="hs-box">
+          <span class="stat-label">BEST</span>
+          <span class="stat-value" id="highscore-display">--</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main id="main-layout">
+
+    <!-- LEFT PANEL: question log + controls -->
+    <aside id="left-panel">
+      <div id="panel-title">
+        <p class="panel-heading">Map Quiz</p>
+        <p class="panel-sub">Double-click to guess · Drag to pan</p>
+      </div>
+
+      <!-- Current question prompt -->
+      <div id="current-prompt">
+        <span id="question-number">Q1</span>
+        <span id="question-text">Loading…</span>
+      </div>
+
+      <!-- Answer history log -->
+      <div id="answer-log">
+        <p class="log-header">Answer Log</p>
+        <ul id="log-list"></ul>
+      </div>
+
+      <!-- Final results (hidden until game ends) -->
+      <div id="results-panel" class="hidden">
+        <p id="results-headline"></p>
+        <p id="results-sub"></p>
+        <button id="play-again-btn">Play Again</button>
+      </div>
+    </aside>
+
+    <!-- RIGHT: Google Map -->
+    <section id="map-section">
+      <div id="map"></div>
+      <!-- Animated feedback overlay -->
+      <div id="map-overlay-msg" class="hidden"></div>
+    </section>
+
+  </main>
+
+  <!--
+    Google Maps JavaScript API
+    ⚠️  REPLACE "YOUR_API_KEY_HERE" with your actual key.
+    Get your key at: https://console.cloud.google.com/google/maps-apis/credentials
+    Enable: Maps JavaScript API
+  -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&callback=initMap"
+    async defer>
+  </script>
+
+  <!-- Our game logic -->
+  <script src="app.js"></script>
+
+</body>
+</html>

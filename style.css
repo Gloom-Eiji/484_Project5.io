@@ -1,0 +1,276 @@
+/*
+  style.css — CSUN Map Quiz
+  Author: Eiji J. Cortez
+  Theme: Black & Red — bold, high-contrast game aesthetic
+  Fonts: Bebas Neue (display), DM Sans (body)
+*/
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg-dark:      #0a0a0a;
+  --bg-panel:     #111111;
+  --bg-card:      #1a1a1a;
+  --accent:       #cc0000;        /* primary red */
+  --accent-bright:#ff2222;        /* hover red */
+  --accent2:      #cc0000;        /* question prompt */
+  --correct:      #22c55e;        /* green for correct */
+  --wrong:        #ff2222;        /* red for wrong */
+  --text-primary: #f0f0f0;
+  --text-muted:   #555555;
+  --border:       #2a2a2a;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --radius:       6px;
+  --shadow:       0 4px 24px rgba(0,0,0,0.7);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+#site-header {
+  background: #0a0a0a;
+  border-bottom: 2px solid var(--accent);
+  padding: 0 24px;
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+#header-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#logo-text {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 4px;
+  color: var(--text-primary);
+}
+#logo-text .accent {
+  color: var(--accent);
+}
+
+#header-stats { display: flex; gap: 10px; }
+
+.stat-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 4px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;
+}
+.stat-label {
+  font-size: 0.60rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+/* ===== MAIN LAYOUT ===== */
+#main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== LEFT PANEL ===== */
+#left-panel {
+  width: 290px;
+  min-width: 270px;
+  background: var(--bg-panel);
+  border-right: 2px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.panel-heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.panel-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* Current question prompt */
+#current-prompt {
+  background: var(--accent);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  box-shadow: 0 0 18px rgba(204,0,0,0.4);
+  animation: pulsePrompt 2s ease-in-out infinite;
+}
+@keyframes pulsePrompt {
+  0%, 100% { box-shadow: 0 0 10px rgba(204,0,0,0.3); }
+  50%       { box-shadow: 0 0 24px rgba(204,0,0,0.7); }
+}
+#question-number {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+#question-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+}
+
+/* ===== ANSWER LOG ===== */
+#answer-log { flex: 1; }
+.log-header {
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+}
+#log-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#log-list li {
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  transform: translateX(-14px);
+  animation: slideIn 0.35s ease forwards;
+}
+@keyframes slideIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+#log-list li .log-location { font-weight: 600; color: var(--text-primary); }
+#log-list li .log-verdict   { font-size: 0.74rem; }
+
+li.correct-item { background: rgba(34,197,94,0.10); border-left: 3px solid var(--correct); }
+li.wrong-item   { background: rgba(204,0,0,0.12);   border-left: 3px solid var(--wrong); }
+li.correct-item .log-verdict { color: var(--correct); }
+li.wrong-item   .log-verdict { color: var(--wrong); }
+
+/* ===== RESULTS PANEL ===== */
+#results-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(204,0,0,0.25);
+}
+#results-panel.hidden { display: none; }
+
+#results-headline {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+#results-sub {
+  font-size: 0.80rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+#play-again-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 30px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+#play-again-btn:hover {
+  background: var(--accent-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(204,0,0,0.5);
+}
+
+/* ===== MAP SECTION ===== */
+#map-section {
+  flex: 1;
+  position: relative;
+}
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== MAP OVERLAY FEEDBACK MESSAGE ===== */
+#map-overlay-msg {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 32px;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+#map-overlay-msg.show-correct {
+  background: #22c55e;
+  color: #fff;
+  box-shadow: 0 0 28px rgba(34,197,94,0.7);
+}
+#map-overlay-msg.show-wrong {
+  background: #cc0000;
+  color: #fff;
+  box-shadow: 0 0 28px rgba(204,0,0,0.7);
+}
+#map-overlay-msg.hidden { display: none; }
+
+/* ===== UTILITY ===== */
+.hidden { display: none !important; }
+
+/* ===== SCROLLBAR ===== */
+#left-panel::-webkit-scrollbar       { width: 4px; }
+#left-panel::-webkit-scrollbar-track { background: transparent; }
+#left-panel::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
